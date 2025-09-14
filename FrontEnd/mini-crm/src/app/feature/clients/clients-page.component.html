@@ -1,0 +1,33 @@
+<section class="p-4 max-w-4xl mx-auto space-y-4">
+    <h1 class="text-2xl font-semibold">Clients</h1>
+
+    <div class="flex gap-2 items-center">
+      <input class="border p-2 rounded flex-1" placeholder="Search by name or email"
+             [(ngModel)]="search" (ngModelChange)="onSearchChange($event)" />
+      <button class="border px-3 py-2 rounded" (click)="reload()">Reload</button>
+    </div>
+
+    <form class="grid gap-2 md:grid-cols-4 items-end" (ngSubmit)="add()">
+      <input class="border p-2 rounded" placeholder="Name"  [(ngModel)]="model.name"  name="name"  required>
+      <input class="border p-2 rounded" placeholder="Email" [(ngModel)]="model.email" name="email" required>
+      <input class="border p-2 rounded" placeholder="Phone" [(ngModel)]="model.phone" name="phone">
+      <button class="border px-3 py-2 rounded">Add</button>
+    </form>
+
+    <ul class="space-y-2">
+      <li class="border p-3 rounded flex justify-between items-center"
+          *ngFor="let c of svc.clients()">
+        <div>
+          <div class="font-medium">{{ c.name }}</div>
+          <div class="text-sm text-gray-600">{{ c.email }} <span *ngIf="c.phone">· {{ c.phone }}</span></div>
+        </div>
+        <button class="text-red-600" (click)="delete(c.id!)">Delete</button>
+      </li>
+    </ul>
+
+    <div class="flex items-center gap-2">
+      <button class="border px-3 py-1 rounded" [disabled]="svc.page()===1" (click)="prev()">Prev</button>
+      <span>Page {{ svc.page() }} / {{ totalPages() }}</span>
+      <button class="border px-3 py-1 rounded" [disabled]="svc.page()>=totalPages()" (click)="next()">Next</button>
+    </div>
+  </section>
